@@ -6,14 +6,12 @@ Usage:
     $ python path/to/detect.py --source path/to/img.jpg --weights yolov5s.pt --img 640
 """
 
-import argparse
 import sys
 from pathlib import Path
 
 import cv2
 import numpy as np
 import torch
-import torch.backends.cudnn as cudnn
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -22,12 +20,10 @@ if str(ROOT) not in sys.path:
 ROOT = ROOT.relative_to(Path.cwd())  # relative
 
 from models.experimental import attempt_load
-from utils.datasets import LoadImages, LoadStreams
-from utils.general import apply_classifier, check_img_size, check_imshow, check_requirements, check_suffix, colorstr, \
-    increment_path, non_max_suppression, print_args, save_one_box, scale_coords, set_logging, \
-    strip_optimizer, xyxy2xywh
+from utils.general import check_img_size, check_suffix, non_max_suppression, scale_coords, set_logging, \
+    xyxy2xywh
 from utils.plots import Annotator, colors
-from utils.torch_utils import load_classifier, select_device, time_sync
+from utils.torch_utils import select_device, time_sync
 from utils.augmentations import letterbox
 
 
@@ -35,8 +31,8 @@ class v5detect:
     def __init__(self):
         self.model, self.stride, self.pt, self.dt, self.seen, self.names, self.device = self.myloadModelInitialize()
 
-    def detect(self,img):
-        #img为数组形式
+    def detect(self, img):
+        # img为数组形式
         return self.run(img, self.model, self.stride, self.pt, self.dt, self.seen, self.names, self.device)
 
     @torch.no_grad()
@@ -72,7 +68,7 @@ class v5detect:
         # for path, img, im0s, vid_cap in dataset:
         return model, stride, pt, dt, seen, names, device
 
-    def myLoadImages(self,img0, img_size, stride, auto):
+    def myLoadImages(self, img0, img_size, stride, auto):
         '''
 
         :param img: np数组形式的图像
@@ -87,8 +83,8 @@ class v5detect:
         return img
 
     @torch.no_grad()
-    def run(self,im0s, model, stride, pt, dt, seen, names, device,
-            imgsz=[224,224],  # inference size (pixels)
+    def run(self, im0s, model, stride, pt, dt, seen, names, device,
+            imgsz=[224, 224],  # inference size (pixels)
             conf_thres=0.25,  # confidence threshold
             iou_thres=0.45,  # NMS IOU threshold
             max_det=1000,  # maximum detections per image
@@ -121,7 +117,7 @@ class v5detect:
             visualize = False
             pred = model(img, augment=augment, visualize=visualize)[0]
 
-        else :
+        else:
             return -1
 
         t3 = time_sync()
@@ -137,7 +133,7 @@ class v5detect:
         for i, det in enumerate(pred):  # per image
             seen += 1
 
-            s, im0 =  '', im0s.copy()
+            s, im0 = '', im0s.copy()
 
             s += '%gx%g ' % img.shape[2:]  # print string
 
@@ -154,10 +150,10 @@ class v5detect:
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
 
-                    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) ).view(-1).tolist()  #  xywh
-                    line = (int(cls), *xywh, float(conf))   # label format
+                    xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4))).view(-1).tolist()  # xywh
+                    line = (int(cls), *xywh, float(conf))  # label format
                     myRes.append(line)
-                    if save_img  or view_img:  # Add bbox to image
+                    if save_img or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
@@ -175,7 +171,6 @@ class v5detect:
             # if save_img:
             #     cv2.imwrite('runs/detect/save_path.jpg', im0)
 
-
         # Print results
         t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
         # print(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)
@@ -184,32 +179,30 @@ class v5detect:
         return myRes, im0
 
 
-
 if __name__ == '__main__':
     v5 = v5detect()
     # img = cv2.imread(r'D:\qt5_yolov5_2.0-main\555.jpg')
     video = cv2.VideoCapture(r"D:\qt5_yolov5_2.0-main\fb1d443f0d26b38a00f7a57355111be2.mp4")
     length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-    
+
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
     cap_fps = video.get(cv2.CAP_PROP_FPS)
 
-    video1 = cv2.VideoWriter('result.mp4', fourcc, cap_fps, (frame_width,frame_height))
+    video1 = cv2.VideoWriter('result.mp4', fourcc, cap_fps, (frame_width, frame_height))
     i = 0
-    while(True):
+    while (True):
         flag, image1 = video.read()
         if flag == True:
-            res,im0 = v5.detect(image1)
+            res, im0 = v5.detect(image1)
             video1.write(im0)
-            cv2.imwrite("aa.jpg",im0)
+            cv2.imwrite("aa.jpg", im0)
             # print(i)
             # i = i+1
         else:
             break
-    
+
     video1.release()
     # res,im0 = v5.detect(img)
     # cv2.imwrite("aa.jpg",im0)
-    

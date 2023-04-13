@@ -1,5 +1,3 @@
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5 import QtWidgets, QtCore, QtGui
 import cv2
 from manual import Manual
 from ui.ui_index import Ui_index

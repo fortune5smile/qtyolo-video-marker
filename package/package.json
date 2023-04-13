@@ -1,0 +1,101 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "E:/project4/qtyolo/avdev.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": false
+  },
+  {
+   "optionDest": "console",
+   "value": true
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "E:/project4/qtyolo/logo.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "\u89c6\u9891\u6807\u6ce8\u5de5\u5177"
+  },
+  {
+   "optionDest": "ascii",
+   "value": true
+  },
+  {
+   "optionDest": "clean_build",
+   "value": true
+  },
+  {
+   "optionDest": "debug",
+   "value": "noarchive"
+  },
+  {
+   "optionDest": "strip",
+   "value": true
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "embed_manifest",
+   "value": true
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "win_private_assemblies",
+   "value": false
+  },
+  {
+   "optionDest": "win_no_prefer_redirects",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "E:/project4/qtyolo/weights;weights/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "E:/project4/qtyolo/models;models/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "E:/project4/qtyolo/utils;utils/"
+  },
+  {
+   "optionDest": "upx_exclude",
+   "value": "E:\\project4\\upx-4.0.2-win64\\upx.exe"
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}
