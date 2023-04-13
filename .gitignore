@@ -1,0 +1,7 @@
+*.mp4
+.idea
+*.log
+*.log.*
+*.log*
+dist
+build
